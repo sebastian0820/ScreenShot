@@ -80,7 +80,7 @@ const {
         },0);
       })
 
-     if (isDev) {
+      if (isDev) {
         $win.webContents.openDevTools();
       }
       $win.once('ready-to-show', () => {
