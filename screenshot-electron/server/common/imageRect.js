@@ -357,10 +357,6 @@ class Injector{
     this.iconRightTopCursor.style.display = 'block'; 
     this.iconLeftBottomCursor.style.display = 'block'; 
     this.iconRightBottomCursor.style.display = 'block';
-
-
-
-
   }
 
   // 隐藏工具栏
