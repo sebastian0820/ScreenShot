@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, ipcMain, globalShortcut } = require('electron');
+const { app, BrowserWindow, Tray, ipcMain, globalShortcut, Menu } = require('electron');
 const path = require('path');
 const logger = require('./logger');
 const { isDev, indexUrl } = require('./config');
@@ -8,7 +8,10 @@ const fs = require('fs');
 let mainWindow,
   shortcutCapture,
   typeHotkeyMap = {};
+
 let willQuitApp = false;
+
+let tray;
 
 function appStart() {
   const shouldQuit = app.makeSingleInstance(() => {
@@ -46,10 +49,34 @@ function createWindow() {
     mainWindow.webContents.openDevTools();
   }
 
+  tray = new Tray(path.join(__dirname, 'static/img/icon.png')); // Specify the path to your tray icon
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Restore',
+      click: () => {
+        mainWindow.show();
+      }
+    },
+    {
+      label: 'Quit',
+      click: () => {
+        app.quit();
+      }
+    }
+  ]);
+  tray.setToolTip('Your App Name');
+  tray.setContextMenu(contextMenu);
+
+  // Show the window when the tray icon is clicked
+  tray.on('click', () => {
+    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+  });
+
   mainWindow.on('close', (e) => {
     if (willQuitApp) {
       mainWindow = null;
-    } else if (process.platform === 'darwin' || process.platform === 'win32') {
+    // } else if (process.platform === 'darwin' || process.platform === 'win32') {
+    }else{
       e.preventDefault();
       mainWindow.hide();
     }
