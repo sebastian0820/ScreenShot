@@ -25,7 +25,7 @@ app.on('ready', () => {
     mainWindow = null;
   });
 
-  globalShortcut.register('CommandOrControl+Y', () => {
+  globalShortcut.register('CommandOrControl+shift+Y', () => {
     console.log('call');
     mainWindow.webContents.send('capture', app.getPath('pictures'));
   });
